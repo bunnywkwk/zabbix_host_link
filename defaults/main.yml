@@ -1,0 +1,24 @@
+#SPDX-License-Identifier: MIT-0
+---
+# The inventory group containing every host to link. zabbix_agents already
+# includes its hypervisors/container_hosts children automatically (a child
+# group's hosts count as members of the parent too), so this one group
+# name covers every monitored host regardless of subgroup.
+zabbix_link_target_group: zabbix_agents
+
+# Zabbix host group every linked host is placed into. Independent of each
+# template's own template_groups field (Linux servers / Scope Templates /
+# Hypervisors, which varies per template) - that's UI categorization for
+# templates, unrelated to which Zabbix host group an actual host sits in.
+zabbix_host_group: "Linux servers"
+
+# Cluster ID -> the exact `template:` name each scope_*.yaml declares.
+# Translates a host's zabbix_agent_clusters (cluster IDs) into what
+# link_templates below actually needs (Zabbix's own template names).
+zabbix_cluster_template_names:
+  host_health: "Scope Host Health and Availability"
+  storage: "Scope Storage and Filesystem"
+  virtualisation: "Scope Virtualisation KVM"
+  containers: "Scope Containers"
+  host_access: "Scope Host Access"
+  privileged_activity: "Scope Privileged Activity"

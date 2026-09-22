@@ -1,0 +1,20 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Link each monitored host to its cluster templates
+  community.zabbix.zabbix_host:
+    host_name: "{{ item }}"
+    host_groups:
+      - "{{ zabbix_host_group }}"
+    link_templates: "{{ hostvars[item].zabbix_agent_clusters | map('extract', zabbix_cluster_template_names) | list }}"
+    status: enabled
+    state: present
+    interfaces:
+      - type: 1
+        main: 1
+        useip: 1
+        ip: "{{ hostvars[item].ansible_host }}"
+        dns: ""
+        port: "10050"
+  loop: "{{ groups[zabbix_link_target_group] }}"
+  loop_control:
+    label: "{{ item }}"
