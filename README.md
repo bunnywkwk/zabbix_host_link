@@ -49,13 +49,20 @@ Requirements
 Role Variables
 ---------------
 
-Defined in `defaults/main.yml`:
+Deployment-tunable, in `defaults/main.yml`:
 
 | Variable                      | Default          | Purpose                                                                                   |
 | ------------------------------- | ------------------ | --------------------------------------------------------------------------------------------- |
 | `zabbix_link_target_group`     | `zabbix_agents`   | Inventory group to loop over. Its `hypervisors`/`container_hosts` children are included automatically (Ansible counts a child group's hosts as members of the parent too). |
 | `zabbix_host_group`            | `Linux servers`   | The Zabbix host group every linked host is placed into. Unrelated to each template's own `template_groups` field, which varies per template (Linux servers / Scope Templates / Hypervisors) — that's UI categorization for templates, not for hosts. |
-| `zabbix_cluster_template_names` | (6-entry mapping) | Translates a cluster ID (as used in `zabbix_agent_clusters`) to the exact `template:` name declared in its `scope_*.yaml`. |
+
+Non-negotiable role internals, in `vars/main.yml` (higher precedence
+than `defaults/`, so inventory/`group_vars` can't accidentally shadow
+them):
+
+| Variable                      | Value             | Purpose                                                                                   |
+| ------------------------------- | ------------------ | --------------------------------------------------------------------------------------------- |
+| `zabbix_cluster_template_names` | (6-entry mapping) | Translates a cluster ID (as used in `zabbix_agent_clusters`) to the exact `template:` name declared in its `scope_*.yaml`. A fixed correspondence to `zabbix_template_deploy`'s template files, not a per-deployment setting. |
 
 Dependencies
 ------------

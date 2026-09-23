@@ -1,3 +1,15 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # vars file for zabbix_host_link
+# Cluster ID -> the exact `template:` name each scope_*.yaml declares.
+# Translates a host's zabbix_agent_clusters (cluster IDs) into what
+# link_templates below actually needs (Zabbix's own template names).
+# Non-negotiable: a 1:1 correspondence to the template names literally
+# inside zabbix_template_deploy/files/*.yaml, not a per-deployment knob.
+zabbix_cluster_template_names:
+  host_health: "Scope Host Health and Availability"
+  storage: "Scope Storage and Filesystem"
+  virtualisation: "Scope Virtualisation KVM"
+  containers: "Scope Containers"
+  host_access: "Scope Host Access"
+  privileged_activity: "Scope Privileged Activity"
